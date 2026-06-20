@@ -1,5 +1,5 @@
 export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "hi" }];
+  return [{ locale: "hi" }, { locale: "en" }];
 }
 
 export default function LocaleLayout({ children }: { children: React.ReactNode }) {

@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MobileStickyCTA } from "@/components/mobile-sticky-cta";
+import { DocumentLanguage } from "@/components/document-language";
 import "./globals.css";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/noto-sans-devanagari";
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className="antialiased">
+        <DocumentLanguage />
         <Header />
         {children}
         <Footer />
