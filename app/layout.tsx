@@ -4,6 +4,8 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MobileStickyCTA } from "@/components/mobile-sticky-cta";
 import "./globals.css";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/noto-sans-devanagari";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ujjain2028.in"),

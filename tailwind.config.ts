@@ -12,6 +12,10 @@ export default {
         cream: "#FCF8F1",
         gold: "#C99B52",
       },
+      fontFamily: {
+        sans: ['"Inter Variable"', '"Noto Sans Devanagari Variable"', "sans-serif"],
+        serif: ['"Inter Variable"', '"Noto Sans Devanagari Variable"', "sans-serif"],
+      },
       boxShadow: {
         soft: "0 18px 60px rgba(58, 35, 24, 0.10)",
       },

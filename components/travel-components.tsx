@@ -40,6 +40,7 @@ export function HeroSection({
       {!compact && <Image src="/images/ujjain-shipra-hero.png" alt="Ujjain temple ghats at sunrise" fill priority className="object-cover object-center" sizes="100vw" />}
       <div className="absolute inset-0 bg-gradient-to-r from-[#1b0d0b]/95 via-[#3b1717]/78 to-[#5a2416]/30" />
       <div className="pattern-mandala absolute inset-0 opacity-15" />
+      <div className="temple-silhouette absolute inset-x-0 bottom-0 h-44" />
       <div className={cn("relative mx-auto flex max-w-7xl items-center px-4 sm:px-6 lg:px-8", compact ? "" : "min-h-[700px] py-20")}>
         <MotionReveal className="max-w-3xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-gold/35 bg-black/15 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#f5c985] backdrop-blur">
