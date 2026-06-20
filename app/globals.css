@@ -8,3 +8,19 @@ body { background: #fcf8f1; color: #211a17; }
 ::selection { background: #e8672a; color: white; }
 .font-serif { font-family: Georgia, "Times New Roman", serif; }
 button, a { -webkit-tap-highlight-color: transparent; }
+.form-control { margin-top: .5rem; height: 3rem; width: 100%; border-radius: .75rem; border: 1px solid #d6d3d1; background: white; padding: 0 1rem; font-weight: 400; outline: none; }
+.form-control:focus { border-color: #e8672a; box-shadow: 0 0 0 3px rgba(232,103,42,.1); }
+.pattern-mandala {
+  background-image: radial-gradient(circle at center, transparent 0 8px, rgba(201,155,82,.12) 9px 10px, transparent 11px 20px, rgba(201,155,82,.08) 21px 22px, transparent 23px);
+  background-size: 64px 64px;
+}
+.pattern-arches {
+  background-image: radial-gradient(ellipse at bottom, transparent 48%, rgba(255,255,255,.2) 49% 51%, transparent 52%);
+  background-size: 50px 70px;
+}
+@media print {
+  header, footer, .print-hidden, .fixed { display: none !important; }
+  body { background: white; }
+  main { padding: 0 !important; }
+  .shadow-soft, [class*="shadow"] { box-shadow: none !important; }
+}

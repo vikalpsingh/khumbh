@@ -1,0 +1,29 @@
+[
+  {
+    "id": "mahakaleshwar",
+    "name": "Shri Mahakaleshwar",
+    "subtitle": "One of the twelve Jyotirlingas",
+    "bestTime": "Pre-dawn or early morning",
+    "duration": "2–4 hours",
+    "familyTip": "Use official assisted-access guidance for elders.",
+    "highlights": ["Bhasma Aarti", "Garbhagriha darshan", "Mahakal Lok"]
+  },
+  {
+    "id": "harsiddhi",
+    "name": "Harsiddhi Mata",
+    "subtitle": "Historic Shakti temple",
+    "bestTime": "Evening aarti",
+    "duration": "45–60 minutes",
+    "familyTip": "Combine with Ram Ghat and Mahakal on the same circuit.",
+    "highlights": ["Maratha lamps", "Evening aarti", "Old-city walk"]
+  },
+  {
+    "id": "kal-bhairav",
+    "name": "Kal Bhairav",
+    "subtitle": "Guardian deity of Ujjain",
+    "bestTime": "Morning",
+    "duration": "60–90 minutes",
+    "familyTip": "Expect a distinctive ritual tradition and busy queues.",
+    "highlights": ["Ancient shrine", "Local tradition", "Nearby Shipra views"]
+  }
+]

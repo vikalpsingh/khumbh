@@ -1,0 +1,42 @@
+[
+  {
+    "id": "essential",
+    "title": "Ujjain Essential",
+    "days": 2,
+    "audience": "Weekend pilgrims",
+    "summary": "Mahakal, Shipra ghats and Ujjain’s sacred old-city circuit.",
+    "schedule": [
+      "Arrival, Mahakal Lok and evening aarti",
+      "Early darshan, Harsiddhi, Kal Bhairav and departure"
+    ]
+  },
+  {
+    "id": "family",
+    "title": "Comfortable Family Journey",
+    "days": 4,
+    "audience": "Parents and children",
+    "summary": "Gentler starts, rest windows and one relaxed day in Indore.",
+    "schedule": [
+      "Arrive and settle in Ujjain",
+      "Mahakal darshan and Mahakal Lok",
+      "Sacred Ujjain circuit at a relaxed pace",
+      "Indore food and heritage, then departure"
+    ]
+  },
+  {
+    "id": "jyotirlinga",
+    "title": "Two Jyotirlingas & Malwa",
+    "days": 7,
+    "audience": "Spiritual explorers",
+    "summary": "Ujjain, Indore, Omkareshwar, Maheshwar and Mandu without rushing.",
+    "schedule": [
+      "Arrive in Indore",
+      "Ujjain Mahakal and ghats",
+      "Ujjain temple circuit",
+      "Omkareshwar",
+      "Maheshwar",
+      "Mandu",
+      "Indore and departure"
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "indore-airport",
+    "from": "Indore Airport",
+    "to": "Ujjain",
+    "distance": "55 km",
+    "duration": "1.5–2.5 hrs",
+    "mode": "Taxi / airport bus",
+    "tip": "Keep a 60-minute festival traffic buffer."
+  },
+  {
+    "id": "indore-city",
+    "from": "Indore City",
+    "to": "Ujjain",
+    "distance": "55 km",
+    "duration": "1–2 hrs",
+    "mode": "Train / bus / taxi",
+    "tip": "Train is often the most predictable option on busy days."
+  },
+  {
+    "id": "bhopal",
+    "from": "Bhopal",
+    "to": "Ujjain",
+    "distance": "190 km",
+    "duration": "4–5 hrs",
+    "mode": "Train / taxi",
+    "tip": "Avoid planning a same-day return during major bathing dates."
+  }
+]

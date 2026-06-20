@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Poha & Jalebi",
+    "category": "Breakfast",
+    "description": "The classic Malwa morning: light, savoury poha followed by warm jalebi.",
+    "diet": "Vegetarian",
+    "bestTime": "7–10 AM"
+  },
+  {
+    "name": "Dal Bafla",
+    "category": "Local meal",
+    "description": "A hearty Madhya Pradesh staple served with dal, ghee, chutney and churma.",
+    "diet": "Vegetarian",
+    "bestTime": "Lunch"
+  },
+  {
+    "name": "Sabudana Khichdi",
+    "category": "Fasting-friendly",
+    "description": "A comforting mix of sago, peanuts and gentle spices, widely available near temples.",
+    "diet": "Vegetarian",
+    "bestTime": "Breakfast / snack"
+  },
+  {
+    "name": "Bhutte Ka Kees",
+    "category": "Malwa special",
+    "description": "Grated corn slow-cooked with milk, mustard and mild spices.",
+    "diet": "Vegetarian",
+    "bestTime": "Evening"
+  }
+]

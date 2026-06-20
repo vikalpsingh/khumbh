@@ -1,0 +1,38 @@
+[
+  {
+    "id": "indore",
+    "name": "Indore",
+    "distance": "55 km",
+    "duration": "1 day",
+    "description": "Heritage, airport convenience and one of India’s most loved vegetarian food scenes.",
+    "highlights": ["Rajwada", "Chappan Dukan", "Sarafa night market"],
+    "tone": "saffron"
+  },
+  {
+    "id": "omkareshwar",
+    "name": "Omkareshwar",
+    "distance": "140 km",
+    "duration": "1–2 days",
+    "description": "Pair Mahakal with another Jyotirlinga on a peaceful Narmada island.",
+    "highlights": ["Jyotirlinga", "Narmada parikrama", "River ghats"],
+    "tone": "maroon"
+  },
+  {
+    "id": "maheshwar",
+    "name": "Maheshwar",
+    "distance": "155 km",
+    "duration": "1–2 days",
+    "description": "Elegant ghats, Ahilyabai Holkar’s fort and celebrated handloom traditions.",
+    "highlights": ["Ahilya Fort", "Narmada sunset", "Maheshwari weaving"],
+    "tone": "gold"
+  },
+  {
+    "id": "mandu",
+    "name": "Mandu",
+    "distance": "150 km",
+    "duration": "1 day",
+    "description": "A romantic hilltop citadel filled with palaces, pavilions and monsoon views.",
+    "highlights": ["Jahaz Mahal", "Rani Roopmati Pavilion", "Afghan architecture"],
+    "tone": "ink"
+  }
+]
