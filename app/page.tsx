@@ -1,93 +1,166 @@
 import type { Metadata } from "next";
-import { BedDouble, CalendarDays, Landmark, Map, Route, Soup } from "lucide-react";
-import destinations from "@/data/destinations.json";
-import itineraries from "@/data/itineraries.json";
-import faqs from "@/data/faqs.json";
-import food from "@/data/food.json";
-import routes from "@/data/routes.json";
-import stays from "@/data/stays.json";
-import { DestinationCard, FeatureCard, HeroSection, ItineraryCard, SectionTitle, TrustBanner } from "@/components/travel-components";
+import {
+  BedDouble,
+  BusFront,
+  CalendarDays,
+  Landmark,
+  MapPinned,
+  Soup,
+} from "lucide-react";
+import home from "@/data/home.json";
+import { HomeHero } from "@/components/home-hero";
+import { HomeFinalCTA, HomeStayCard, HomeTrustSection } from "@/components/home-sections";
+import {
+  DestinationCard,
+  FeatureCard,
+  FoodCard,
+  ItineraryCard,
+  SectionTitle,
+  WhatsAppShareButton,
+} from "@/components/travel-components";
 import { FAQAccordion } from "@/components/faq-accordion";
 import { MotionReveal } from "@/components/motion-reveal";
-import {
-  DestinationTimelineCard,
-  FamilyTravelTipsCard,
-  FoodDiscoveryCard,
-  KumbhCountdownCard,
-  StayComparisonTable,
-  TempleDarshanCard,
-  TravelRouteCard,
-} from "@/components/spiritual-design-system";
 
 export const metadata: Metadata = {
   title: "Ujjain Kumbh Mela 2028 & Mahakal Travel Guide",
-  description: "Plan a safe, comfortable family trip to Ujjain Kumbh 2028 with Mahakal darshan, hotel comparisons, routes and itineraries.",
+  description:
+    "Plan your complete Ujjain Kumbh Mela 2028 journey with Mahakal darshan, stay comparisons, routes, food, nearby Jyotirlinga trips and family itineraries.",
+  keywords: [
+    "Ujjain Kumbh Mela 2028",
+    "Mahakal Darshan guide",
+    "Ujjain trip planner",
+    "Ujjain hotels",
+    "Omkareshwar trip",
+    "Madhya Pradesh spiritual itinerary",
+  ],
   alternates: { canonical: "/" },
+  openGraph: {
+    title: "Plan Your Ujjain Kumbh Mela 2028 Journey",
+    description: "A complete family-friendly Mahakal and Ujjain travel planning guide.",
+    images: ["/images/ujjain-shipra-hero.png"],
+  },
 };
 
-export default function Home() {
-  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+const planningCards = [
+  { title: "How to Reach Ujjain", description: "Compare airport, train and road routes with realistic transfer times.", href: "/how-to-reach", icon: BusFront },
+  { title: "Mahakal Darshan", description: "Understand Bhasma Aarti, temple etiquette, timings and family planning.", href: "/mahakal-temple-guide", icon: Landmark },
+  { title: "Where to Stay", description: "Choose between Ujjain, Indore and Bhopal based on your priorities.", href: "/stay-guide", icon: BedDouble },
+  { title: "Nearby Places", description: "Add Omkareshwar, Maheshwar, Mandu, Sanchi or Bhimbetka.", href: "/nearby-places", icon: MapPinned },
+  { title: "Food Guide", description: "Discover Malwa favourites and make safer festival food choices.", href: "/food-guide", icon: Soup },
+  { title: "Ready Itineraries", description: "Start with practical one, two, three and five-day travel plans.", href: "/itineraries", icon: CalendarDays },
+];
+
+export default function HomePage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: home.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+  const travelGuideSchema = {
+    "@context": "https://schema.org",
+    "@type": "TravelGuide",
+    name: "Ujjain Kumbh Mela 2028 & Mahakal Travel Guide",
+    description: metadata.description,
+    url: "https://ujjain2028.in",
+    about: [
+      { "@type": "TouristDestination", name: "Ujjain, Madhya Pradesh" },
+      { "@type": "LandmarksOrHistoricalBuildings", name: "Shri Mahakaleshwar Jyotirlinga" },
+    ],
+    audience: { "@type": "Audience", audienceType: "Family travellers and spiritual tourists" },
+  };
+
   return (
     <main>
-      <HeroSection eyebrow="Ujjain Kumbh Mela 2028" title="Plan a peaceful journey to" accent="Mahakal." description="A trusted, family-friendly guide for darshan, stays, routes, food and meaningful journeys around Madhya Pradesh." />
-      <TrustBanner />
+      <HomeHero />
+      <HomeTrustSection items={home.trustBadges} />
+
       <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.35fr_.65fr]">
-          <KumbhCountdownCard />
-          <TempleDarshanCard />
-        </div>
-      </section>
-      <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Start with the big decisions" title="Everything your family needs, in one place" description="Clear comparisons and practical planning for busy professionals, parents and first-time spiritual travellers." />
+          <SectionTitle
+            eyebrow="Plan the complete journey"
+            title="Start with the decision you need to make"
+            description="Every guide is designed to answer a practical trip question clearly, especially for families travelling with parents or children."
+          />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <FeatureCard icon={Landmark} title="Mahakal darshan guide" description="Bhasma Aarti, temple etiquette, family notes and a practical sacred circuit." href="/mahakal-temple-guide" />
-            <FeatureCard icon={BedDouble} title="Where should we stay?" description="Compare Ujjain, Indore and Bhopal by comfort, commute and cost." href="/stay-guide" />
-            <FeatureCard icon={Map} title="Plan my trip" description="Build a flexible day-by-day plan with Maps, WhatsApp and print options." href="/plan-my-trip" />
-            <FeatureCard icon={Route} title="Nearby destinations" description="Add Omkareshwar, Maheshwar, Mandu or Indore without rushing." href="/nearby-places" />
-            <FeatureCard icon={CalendarDays} title="Ready itineraries" description="Choose practical two, four and seven-day journeys." href="/itineraries" />
-            <FeatureCard icon={Soup} title="What to eat" description="Family-friendly Malwa favourites and festival food-safety guidance." href="/food-guide" />
+            {planningCards.map((card) => <FeatureCard key={card.title} {...card} />)}
           </div>
         </div>
       </section>
+
       <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Getting there" title="Choose the route that suits your family" description="Direct route links and honest timing estimates help you avoid over-tight connections." />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">{routes.map((route) => <MotionReveal key={route.id}><TravelRouteCard from={route.from} distance={route.distance} duration={route.duration} mode={route.mode} tip={route.tip} /></MotionReveal>)}</div>
+          <SectionTitle
+            eyebrow="The biggest booking decision"
+            title="Should you stay in Ujjain, Indore or Bhopal?"
+            description="Compare each city by the experience it makes easiest—not only by room price."
+          />
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            {home.stays.map((stay, index) => <MotionReveal key={stay.city}><HomeStayCard stay={stay} featured={index === 0} /></MotionReveal>)}
+          </div>
         </div>
       </section>
+
       <section className="bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Where to sleep" title="Compare your base at a glance" description="The best hotel is not always the closest—it is the one that fits your group’s energy and priorities." />
-          <div className="mt-10"><StayComparisonTable stays={stays} /></div>
+          <SectionTitle
+            eyebrow="Popular nearby trips"
+            title="See more of sacred and historic Madhya Pradesh"
+            description="Add one or two destinations based on your available days. Each card includes Maps and WhatsApp sharing."
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {home.destinations.map((destination) => <MotionReveal key={destination.name}><DestinationCard destination={destination} /></MotionReveal>)}
+          </div>
         </div>
       </section>
+
+      <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionTitle
+              eyebrow="Itinerary preview"
+              title="Choose how much of the journey fits"
+              description="Start with a clear route, then leave enough room for queues, meals and rest."
+            />
+            <WhatsAppShareButton text="Ujjain Kumbh 2028 itinerary ideas: https://ujjain2028.in/#itineraries" />
+          </div>
+          <div id="itineraries" className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {home.itineraries.map((itinerary) => <MotionReveal key={itinerary.title}><ItineraryCard itinerary={itinerary} /></MotionReveal>)}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Extend your pilgrimage" title="Nearby places worth the extra day" description="Thoughtful side trips that add culture, nature and another sacred chapter to your journey." />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{destinations.map((item) => <MotionReveal key={item.id}><DestinationCard destination={item} /></MotionReveal>)}</div>
+          <SectionTitle
+            eyebrow="Taste of Malwa"
+            title="Five local foods to look forward to"
+            description="Vegetarian, family-friendly favourites for breakfast, meals, fasting days and evening exploration."
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            {home.foods.map((food) => <MotionReveal key={food.name}><FoodCard food={food} /></MotionReveal>)}
+          </div>
         </div>
       </section>
-      <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-1"><DestinationTimelineCard destinations={destinations} /></div>
-          <FamilyTravelTipsCard />
-          <FoodDiscoveryCard foods={food} />
-        </div>
-      </section>
-      <section className="pattern-mandala bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Ready-to-use plans" title="Pick a pace that feels human" description="Every itinerary leaves space for queues, rest, meals and the unexpected rhythms of a pilgrimage." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">{itineraries.map((item) => <MotionReveal key={item.id}><ItineraryCard itinerary={item} /></MotionReveal>)}</div>
-        </div>
-      </section>
+
       <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.7fr_1.3fr]">
-          <SectionTitle eyebrow="Before you book" title="Questions families ask most" description="Straight answers for the details that can make or break a comfortable Kumbh trip." />
-          <FAQAccordion items={faqs} />
+          <SectionTitle
+            eyebrow="Frequently asked"
+            title="Answers before you begin booking"
+            description="The five questions most families ask while planning their first Ujjain journey."
+          />
+          <FAQAccordion items={home.faqs} />
         </div>
       </section>
+
+      <HomeFinalCTA />
+
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(travelGuideSchema) }} />
     </main>
   );
 }
