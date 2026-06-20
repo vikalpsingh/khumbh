@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { background: #fcf8f1; color: #211a17; }
+::selection { background: #e8672a; color: white; }
+.font-serif { font-family: Georgia, "Times New Roman", serif; }
+button, a { -webkit-tap-highlight-color: transparent; }
