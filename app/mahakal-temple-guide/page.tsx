@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   description: "Plan Mahakal darshan, Bhasma Aarti, nearby Ujjain temples and a family-friendly sacred circuit without relying on uncertain timings.",
   keywords: ["Mahakal Darshan", "Bhasma Aarti guide", "Mahakaleshwar temple", "Ujjain nearby temples", "Mahakal family visit"],
   alternates: { canonical: "/mahakal-temple-guide" },
-  openGraph: { title: "Mahakaleshwar Temple Guide for Ujjain Visitors", description: "Darshan guidance, nearby temples and family-friendly Ujjain plans." },
+  openGraph: {
+    title: "Mahakaleshwar Temple Guide for Ujjain Visitors",
+    description: "Darshan guidance, nearby temples and family-friendly Ujjain plans.",
+    images: ["/images/mahakal-temple-exterior.png"],
+  },
 };
 
 export default function MahakalPage() {
