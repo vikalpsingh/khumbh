@@ -1,101 +1,49 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, MapPin, MessageCircle, Printer } from "lucide-react";
+import type { LocaleCode } from "@/lib/locale";
+import { uiCopy } from "@/data/locale-ui";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
-const questions = [
-  { title: "आपकी यात्रा कहाँ से शुरू होगी?", help: "इससे मार्ग और यात्रा समय का अनुमान बनेगा।", options: ["इंदौर", "भोपाल", "दिल्ली", "मुंबई", "पुणे", "अहमदाबाद", "बेंगलुरु", "अन्य"] },
-  { title: "आपके पास कितने दिन हैं?", help: "दिनों के आधार पर मुख्य यात्रा सर्किट चुना जाएगा।", options: ["1 दिन", "2 दिन", "3 दिन", "5 दिन", "7 दिन"] },
-  { title: "कौन यात्रा कर रहा है?", help: "हम यात्रा की गति और आराम के सुझाव इसके अनुसार बदलेंगे।", options: ["अकेले", "दंपति", "परिवार", "बुजुर्ग माता-पिता", "विदेशी यात्री"] },
-  { title: "आप कहाँ ठहरना पसंद करेंगे?", help: "शहर चुनें या प्लानर को सुझाव देने दें।", options: ["उज्जैन", "इंदौर", "भोपाल", "पता नहीं"] },
-];
+const plannerCopy: Record<LocaleCode, { questions: string[]; cities: string[]; visitors: string[]; stays: string[]; interests: string[]; back: string; next: string; result: string; itinerary: string; privacy: string; print: string; restart: string }> = {
+  hi: { questions: ["यात्रा कहाँ से शुरू होगी?", "कितने दिन हैं?", "कौन यात्रा कर रहा है?", "कहाँ ठहरना चाहेंगे?", "आपकी रुचियाँ क्या हैं?"], cities: ["इंदौर", "भोपाल", "दिल्ली", "मुंबई", "पुणे", "अहमदाबाद", "बेंगलुरु", "अन्य"], visitors: ["अकेले", "दंपति", "परिवार", "बुजुर्ग माता-पिता", "विदेशी यात्री"], stays: ["उज्जैन", "इंदौर", "भोपाल", "पता नहीं"], interests: ["महाकाल दर्शन", "ज्योतिर्लिंग", "खान-पान", "विरासत", "प्रकृति", "परिवार", "आरामदायक यात्रा"], back: "पीछे", next: "आगे बढ़ें", result: "मेरी यात्रा बनाएँ", itinerary: "दिनवार कार्यक्रम", privacy: "आपके विकल्प कहीं जमा नहीं किए जाते।", print: "प्रिंट / PDF", restart: "फिर शुरू करें" },
+  bn: { questions: ["যাত্রা কোথা থেকে শুরু হবে?", "কত দিন সময় আছে?", "কারা ভ্রমণ করছেন?", "কোথায় থাকতে চান?", "আপনার আগ্রহ কী?"], cities: ["ইন্দোর", "ভোপাল", "দিল্লি", "মুম্বই", "পুনে", "আহমেদাবাদ", "বেঙ্গালুরু", "অন্যান্য"], visitors: ["একাকী", "দম্পতি", "পরিবার", "বয়স্ক বাবা-মা", "বিদেশি পর্যটক"], stays: ["উজ্জয়িনী", "ইন্দোর", "ভোপাল", "নিশ্চিত নই"], interests: ["মহাকাল দর্শন", "জ্যোতির্লিঙ্গ", "খাবার", "ঐতিহ্য", "প্রকৃতি", "পরিবার", "ধীর ভ্রমণ"], back: "পিছনে", next: "এগিয়ে যান", result: "ভ্রমণ সাজান", itinerary: "দিনভিত্তিক পরিকল্পনা", privacy: "আপনার পছন্দ কোথাও সংরক্ষিত হয় না।", print: "প্রিন্ট / PDF", restart: "আবার শুরু" },
+  mr: { questions: ["प्रवास कुठून सुरू होईल?", "किती दिवस आहेत?", "कोण प्रवास करत आहे?", "कुठे राहायचे?", "तुमच्या आवडी काय?"], cities: ["इंदूर", "भोपाळ", "दिल्ली", "मुंबई", "पुणे", "अहमदाबाद", "बेंगळुरू", "इतर"], visitors: ["एकटे", "जोडपे", "कुटुंब", "ज्येष्ठ पालक", "परदेशी प्रवासी"], stays: ["उज्जैन", "इंदूर", "भोपाळ", "निश्चित नाही"], interests: ["महाकाल दर्शन", "ज्योतिर्लिंग", "खाद्य", "वारसा", "निसर्ग", "कुटुंब", "संथ प्रवास"], back: "मागे", next: "पुढे", result: "प्रवास तयार करा", itinerary: "दिवसनिहाय कार्यक्रम", privacy: "तुमचे पर्याय कुठेही साठवले जात नाहीत।", print: "प्रिंट / PDF", restart: "पुन्हा सुरू" },
+  te: { questions: ["యాత్ర ఎక్కడ ప్రారంభమవుతుంది?", "ఎన్ని రోజులు ఉన్నాయి?", "ఎవరు ప్రయాణిస్తున్నారు?", "ఎక్కడ ఉండాలి?", "మీ ఆసక్తులు ఏమిటి?"], cities: ["ఇందోర్", "భోపాల్", "ఢిల్లీ", "ముంబై", "పుణే", "అహ్మదాబాద్", "బెంగళూరు", "ఇతర"], visitors: ["ఒంటరిగా", "జంట", "కుటుంబం", "వృద్ధ తల్లిదండ్రులు", "విదేశీ ప్రయాణికులు"], stays: ["ఉజ్జయిని", "ఇందోర్", "భోపాల్", "తెలియదు"], interests: ["మహాకాళ్ దర్శనం", "జ్యోతిర్లింగం", "ఆహారం", "వారసత్వం", "ప్రకృతి", "కుటుంబం", "నెమ్మదైన యాత్ర"], back: "వెనక్కి", next: "తదుపరి", result: "యాత్ర రూపొందించండి", itinerary: "రోజువారీ ప్రణాళిక", privacy: "మీ ఎంపికలు ఎక్కడా నిల్వ చేయబడవు।", print: "ప్రింట్ / PDF", restart: "మళ్లీ ప్రారంభించండి" },
+  ta: { questions: ["பயணம் எங்கிருந்து தொடங்கும்?", "எத்தனை நாட்கள்?", "யார் பயணம் செய்கிறார்கள்?", "எங்கு தங்க விரும்புகிறீர்கள்?", "உங்கள் விருப்பங்கள் என்ன?"], cities: ["இந்தோர்", "போபால்", "டெல்லி", "மும்பை", "புனே", "அகமதாபாத்", "பெங்களூரு", "மற்றவை"], visitors: ["தனியாக", "தம்பதி", "குடும்பம்", "முதிய பெற்றோர்", "வெளிநாட்டு பயணி"], stays: ["உஜ்ஜைன்", "இந்தோர்", "போபால்", "தெரியவில்லை"], interests: ["மகாகால் தரிசனம்", "ஜோதிர்லிங்கம்", "உணவு", "பாரம்பரியம்", "இயற்கை", "குடும்பம்", "மெதுவான பயணம்"], back: "பின்", next: "அடுத்து", result: "பயணம் உருவாக்கு", itinerary: "தினசரி திட்டம்", privacy: "உங்கள் தேர்வுகள் எங்கும் சேமிக்கப்படாது।", print: "அச்சு / PDF", restart: "மீண்டும் தொடங்கு" },
+  kn: { questions: ["ಪ್ರಯಾಣ ಎಲ್ಲಿ ಆರಂಭವಾಗುತ್ತದೆ?", "ಎಷ್ಟು ದಿನಗಳಿವೆ?", "ಯಾರು ಪ್ರಯಾಣಿಸುತ್ತಿದ್ದಾರೆ?", "ಎಲ್ಲಿ ತಂಗಲು ಬಯಸುತ್ತೀರಿ?", "ನಿಮ್ಮ ಆಸಕ್ತಿಗಳು ಯಾವುವು?"], cities: ["ಇಂದೋರ್", "ಭೋಪಾಲ್", "ದೆಹಲಿ", "ಮುಂಬೈ", "ಪುಣೆ", "ಅಹಮದಾಬಾದ್", "ಬೆಂಗಳೂರು", "ಇತರೆ"], visitors: ["ಒಬ್ಬರೇ", "ದಂಪತಿ", "ಕುಟುಂಬ", "ಹಿರಿಯ ಪೋಷಕರು", "ವಿದೇಶಿ ಪ್ರವಾಸಿಗ"], stays: ["ಉಜ್ಜಯಿನಿ", "ಇಂದೋರ್", "ಭೋಪಾಲ್", "ಗೊತ್ತಿಲ್ಲ"], interests: ["ಮಹಾಕಾಳ ದರ್ಶನ", "ಜ್ಯೋತಿರ್ಲಿಂಗ", "ಆಹಾರ", "ಪರಂಪರೆ", "ಪ್ರಕೃತಿ", "ಕುಟುಂಬ", "ನಿಧಾನ ಪ್ರಯಾಣ"], back: "ಹಿಂದೆ", next: "ಮುಂದೆ", result: "ಪ್ರಯಾಣ ರಚಿಸಿ", itinerary: "ದಿನವಾರು ಯೋಜನೆ", privacy: "ನಿಮ್ಮ ಆಯ್ಕೆಗಳು ಎಲ್ಲಿಯೂ ಸಂಗ್ರಹವಾಗುವುದಿಲ್ಲ।", print: "ಮುದ್ರಿಸಿ / PDF", restart: "ಮತ್ತೆ ಆರಂಭಿಸಿ" },
+};
 
-const interests = ["महाकाल दर्शन", "ज्योतिर्लिंग सर्किट", "खान-पान", "विरासत", "प्रकृति", "परिवार के अनुकूल", "आरामदायक यात्रा"];
-
-export function HindiTripPlanner() {
+export function HindiTripPlanner({ locale }: { locale: LocaleCode }) {
+  const text = plannerCopy[locale];
+  const copy = uiCopy[locale];
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [multi, setMulti] = useState<string[]>([]);
   const [finished, setFinished] = useState(false);
-  const selected = answers[step] || "";
-  const canContinue = step === 4 ? selectedInterests.length > 0 : Boolean(selected);
-  const days = Number((answers[1] || "1").split(" ")[0]);
-  const plan = useMemo(() => buildHindiPlan(days, answers[2], answers[3], selectedInterests), [days, answers, selectedInterests]);
-
-  function choose(value: string) {
-    setAnswers((current) => {
-      const next = [...current];
-      next[step] = value;
-      return next;
-    });
-  }
-
-  function next() {
-    if (!canContinue) return;
-    if (step === 4) setFinished(true);
-    else setStep((current) => current + 1);
-  }
-
-  return (
-    <div>
-      <div className="mx-auto flex max-w-4xl items-center gap-2">{[0, 1, 2, 3, 4].map((index) => <div key={index} className="flex flex-1 items-center"><span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-xs font-bold ${index < step || finished ? "bg-[#168f4d] text-white" : index === step ? "bg-saffron text-white ring-4 ring-orange-100" : "bg-white text-stone-400 ring-1 ring-stone-200"}`}>{index < step || finished ? <Check className="h-4 w-4" /> : index + 1}</span>{index < 4 && <span className={`mx-2 h-0.5 flex-1 ${index < step || finished ? "bg-[#168f4d]" : "bg-stone-200"}`} />}</div>)}</div>
-      {!finished ? (
-        <Card className="mx-auto mt-8 max-w-4xl overflow-hidden border-gold/40">
-          <div className="brand-gradient temple-silhouette p-6 text-white sm:p-8">
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-gold">चरण {step + 1} / 5</p>
-            <h2 className="mt-3 font-serif text-3xl text-white sm:text-4xl">{step < 4 ? questions[step].title : "इस यात्रा में आपकी रुचि क्या है?"}</h2>
-            <p className="mt-3 text-sm text-orange-50/80">{step < 4 ? questions[step].help : "एक या अधिक विकल्प चुनें।"}</p>
-          </div>
-          <CardContent className="p-5 sm:p-8">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {(step < 4 ? questions[step].options : interests).map((option) => {
-                const active = step < 4 ? selected === option : selectedInterests.includes(option);
-                return <button key={option} onClick={() => step < 4 ? choose(option) : setSelectedInterests((current) => current.includes(option) ? current.filter((item) => item !== option) : [...current, option])} className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left font-bold transition ${active ? "border-saffron bg-orange-50 ring-2 ring-orange-100" : "border-stone-200 bg-white hover:border-gold"}`}><span className={`grid h-9 w-9 place-items-center rounded-xl ${active ? "bg-saffron text-white" : "bg-sand text-maroon"}`}><MapPin className="h-4 w-4" /></span>{option}</button>;
-              })}
-            </div>
-            <div className="mt-8 flex justify-between gap-3"><Button variant="ghost" disabled={step === 0} onClick={() => setStep((current) => current - 1)}><ArrowLeft className="h-4 w-4" />पीछे</Button><Button size="lg" disabled={!canContinue} onClick={next}>{step === 4 ? "मेरी यात्रा बनाएँ" : "आगे बढ़ें"}<ArrowRight className="h-4 w-4" /></Button></div>
-            <p className="mt-5 text-center text-xs text-stone-400">आपके विकल्प केवल इसी पेज पर रहते हैं और कहीं जमा नहीं किए जाते।</p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card id="print-itinerary" className="mt-8 overflow-hidden border-gold/40">
-          <div className="brand-gradient temple-silhouette p-7 text-white sm:p-10"><p className="text-xs font-bold uppercase tracking-[.2em] text-gold">आपकी यात्रा योजना</p><h2 className="mt-3 font-serif text-4xl text-white">{days} दिन की उज्जैन यात्रा</h2><p className="mt-3 text-orange-50/80">{answers[0]} से · {answers[2]} · सही बेस: {plan.base}</p></div>
-          <CardContent className="p-6 sm:p-9">
-            <h3 className="font-serif text-2xl">दिनवार कार्यक्रम</h3>
-            <ol className="relative ml-4 mt-6 border-l border-gold/50 pl-8">{plan.days.map((item, index) => <li key={item} className="relative pb-6 last:pb-0"><span className="absolute -left-[42px] grid h-7 w-7 place-items-center rounded-full bg-saffron text-xs font-bold text-white ring-4 ring-orange-50">{index + 1}</span><p className="leading-7 text-stone-700">{item}</p></li>)}</ol>
-            <div className="mt-8 grid gap-5 md:grid-cols-3"><Result title="जरूरी मंदिर" items={plan.temples} /><Result title="खान-पान" items={plan.food} /><Result title="परिवार सुझाव" items={plan.tips} /></div>
-            <div className="print-hidden mt-8 flex flex-wrap gap-3 border-t border-stone-200 pt-7">
-              <Button asChild variant="outline"><a href={`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(answers[0])}&destination=Ujjain`} target="_blank" rel="noreferrer"><MapPin className="h-4 w-4" />मार्ग खोलें</a></Button>
-              <Button asChild variant="whatsapp"><a href={`https://wa.me/?text=${encodeURIComponent(`${days} दिन की उज्जैन यात्रा। सही बेस: ${plan.base}। ${plan.days.join(" ")}`)}`} target="_blank" rel="noreferrer"><MessageCircle className="h-4 w-4" />WhatsApp पर भेजें</a></Button>
-              <Button variant="outline" onClick={() => window.print()}><Printer className="h-4 w-4" />प्रिंट / PDF</Button>
-              <Button variant="ghost" onClick={() => { setFinished(false); setStep(0); }}>फिर से शुरू करें</Button>
-            </div>
-            <p className="mt-6 text-xs leading-5 text-stone-500">यह प्रारंभिक योजना है। यात्रा समय, दर्शन व्यवस्था और आधिकारिक नियम बुकिंग से पहले जाँचें।</p>
-          </CardContent>
-        </Card>
-      )}
-    </div>
-  );
+  const options = step === 0 ? text.cities : step === 1 ? ["1", "2", "3", "5", "7"] : step === 2 ? text.visitors : step === 3 ? text.stays : text.interests;
+  const selected = step === 4 ? multi : answers[step] ? [answers[step]] : [];
+  const canContinue = selected.length > 0;
+  const days = Number(answers[1] || 1);
+  const itinerary = buildPlan(days, locale);
+  const choose = (option: string) => step === 4 ? setMulti((current) => current.includes(option) ? current.filter((item) => item !== option) : [...current, option]) : setAnswers((current) => { const next = [...current]; next[step] = option; return next; });
+  return <div>
+    <div className="mx-auto flex max-w-4xl items-center gap-2">{[0,1,2,3,4].map((index) => <div key={index} className="flex flex-1 items-center"><span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-xs font-bold ${index < step || finished ? "bg-[#168f4d] text-white" : index === step ? "bg-saffron text-white ring-4 ring-orange-100" : "bg-white text-stone-400 ring-1 ring-stone-200"}`}>{index < step || finished ? <Check className="h-4 w-4" /> : index + 1}</span>{index < 4 && <span className={`mx-2 h-0.5 flex-1 ${index < step || finished ? "bg-[#168f4d]" : "bg-stone-200"}`} />}</div>)}</div>
+    {!finished ? <Card className="mx-auto mt-8 max-w-4xl overflow-hidden border-gold/40"><div className="brand-gradient temple-silhouette p-6 text-white sm:p-8"><p className="text-xs font-bold uppercase tracking-[.2em] text-gold">{step + 1} / 5</p><h2 className="mt-3 font-serif text-3xl text-white sm:text-4xl">{text.questions[step]}</h2></div><CardContent className="p-5 sm:p-8"><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{options.map((option) => { const active = selected.includes(option); return <button key={option} onClick={() => choose(option)} className={`flex min-h-20 items-center gap-3 rounded-2xl border p-4 text-left font-bold ${active ? "border-saffron bg-orange-50 ring-2 ring-orange-100" : "border-stone-200 bg-white hover:border-gold"}`}><span className={`grid h-9 w-9 place-items-center rounded-xl ${active ? "bg-saffron text-white" : "bg-sand text-maroon"}`}><MapPin className="h-4 w-4" /></span>{option}</button>; })}</div><div className="mt-8 flex justify-between gap-3"><Button variant="ghost" disabled={step === 0} onClick={() => setStep((value) => value - 1)}><ArrowLeft className="h-4 w-4" />{text.back}</Button><Button size="lg" disabled={!canContinue} onClick={() => step === 4 ? setFinished(true) : setStep((value) => value + 1)}>{step === 4 ? text.result : text.next}<ArrowRight className="h-4 w-4" /></Button></div><p className="mt-5 text-center text-xs text-stone-400">{text.privacy}</p></CardContent></Card> :
+    <Card className="mt-8 overflow-hidden border-gold/40"><div className="brand-gradient temple-silhouette p-7 text-white sm:p-10"><p className="text-xs font-bold uppercase tracking-[.2em] text-gold">{copy.planTrip}</p><h2 className="mt-3 font-serif text-4xl text-white">{days} · {copy.siteName}</h2><p className="mt-3 text-orange-50/80">{answers[0]} · {answers[2]} · {answers[3]}</p></div><CardContent className="p-6 sm:p-9"><h3 className="font-serif text-2xl">{text.itinerary}</h3><ol className="relative ml-4 mt-6 border-l border-gold/50 pl-8">{itinerary.map((item, index) => <li key={item} className="relative pb-6"><span className="absolute -left-[42px] grid h-7 w-7 place-items-center rounded-full bg-saffron text-xs font-bold text-white ring-4 ring-orange-50">{index + 1}</span><p className="leading-7 text-stone-700">{item}</p></li>)}</ol><div className="print-hidden mt-8 flex flex-wrap gap-3"><Button asChild variant="outline"><a href={`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(answers[0])}&destination=Ujjain`} target="_blank" rel="noreferrer"><MapPin className="h-4 w-4" />{copy.map}</a></Button><Button asChild variant="whatsapp"><a href={`https://wa.me/?text=${encodeURIComponent(itinerary.join(" "))}`} target="_blank" rel="noreferrer"><MessageCircle className="h-4 w-4" />WhatsApp</a></Button><Button variant="outline" onClick={() => window.print()}><Printer className="h-4 w-4" />{text.print}</Button><Button variant="ghost" onClick={() => { setFinished(false); setStep(0); }}>{text.restart}</Button></div></CardContent></Card>}
+  </div>;
 }
 
-function Result({ title, items }: { title: string; items: string[] }) {
-  return <div className="rounded-2xl bg-sand/70 p-5"><h3 className="font-bold text-maroon">{title}</h3><ul className="mt-3 space-y-2">{items.map((item) => <li key={item} className="flex gap-2 text-sm leading-6 text-stone-700"><Check className="mt-1 h-4 w-4 shrink-0 text-saffron" />{item}</li>)}</ul></div>;
-}
-
-function buildHindiPlan(days: number, visitor = "", stay = "", selected: string[]) {
-  const base = stay && stay !== "पता नहीं" ? stay : days <= 2 ? "उज्जैन" : days <= 5 ? "उज्जैन और इंदौर" : "उज्जैन, इंदौर और भोपाल";
-  const plans: Record<number, string[]> = {
-    1: ["सुबह महाकाल दर्शन रखें।", "दोपहर भोजन और विश्राम के बाद हरसिद्धि माता जाएँ।", "शाम राम घाट या महाकाल लोक देखें।"],
-    2: ["दिन 1: महाकाल दर्शन, विश्राम और उज्जैन मंदिर सर्किट।", "दिन 2: सुबह जल्दी ओंकारेश्वर, दर्शन और पर्याप्त समय के साथ वापसी।"],
-    3: ["दिन 1: उज्जैन आगमन और महाकाल लोक।", "दिन 2: महाकाल दर्शन और चुनिंदा मंदिर।", "दिन 3: इंदौर या ओंकारेश्वर/महेश्वर की यात्रा।"],
-    5: ["दिन 1–2: उज्जैन और महाकाल दर्शन।", "दिन 3: ओंकारेश्वर।", "दिन 4: महेश्वर।", "दिन 5: मांडू और इंदौर वापसी।"],
-    7: ["दिन 1–2: उज्जैन।", "दिन 3: ओंकारेश्वर।", "दिन 4: महेश्वर।", "दिन 5: मांडू और इंदौर।", "दिन 6: भोपाल और साँची।", "दिन 7: भीमबेटका तथा प्रस्थान।"],
+function buildPlan(days: number, locale: LocaleCode) {
+  const plans: Record<LocaleCode, Record<number, string[]>> = {
+    hi: { 1: ["महाकाल दर्शन", "हरसिद्धि माता और विश्राम", "राम घाट या महाकाल लोक"], 2: ["उज्जैन मंदिर सर्किट", "ओंकारेश्वर की दिन यात्रा"], 3: ["उज्जैन में दो आरामदायक दिन", "इंदौर या महेश्वर"], 5: ["उज्जैन में दो दिन", "ओंकारेश्वर", "महेश्वर", "मांडू और इंदौर"], 7: ["उज्जैन में दो दिन", "ओंकारेश्वर", "महेश्वर", "मांडू और इंदौर", "भोपाल और साँची", "भीमबेटका"] },
+    bn: { 1: ["মহাকাল দর্শন", "হরসিদ্ধি মাতা ও বিশ্রাম", "রামঘাট বা মহাকাল লোক"], 2: ["উজ্জয়িনী মন্দির পরিক্রমা", "ওঙ্কারেশ্বর দিনের সফর"], 3: ["উজ্জয়িনীতে দুই আরামদায়ক দিন", "ইন্দোর বা মহেশ্বর"], 5: ["উজ্জয়িনীতে দুই দিন", "ওঙ্কারেশ্বর", "মহেশ্বর", "মাণ্ডু ও ইন্দোর"], 7: ["উজ্জয়িনীতে দুই দিন", "ওঙ্কারেশ্বর", "মহেশ্বর", "মাণ্ডু ও ইন্দোর", "ভোপাল ও সাঁচি", "ভীমবেটকা"] },
+    mr: { 1: ["महाकाल दर्शन", "हरसिद्धी माता आणि विश्रांती", "रामघाट किंवा महाकाल लोक"], 2: ["उज्जैन मंदिर परिक्रमा", "ओंकारेश्वर दिवसाची सहल"], 3: ["उज्जैनमध्ये दोन आरामदायी दिवस", "इंदूर किंवा महेश्वर"], 5: ["उज्जैनमध्ये दोन दिवस", "ओंकारेश्वर", "महेश्वर", "मांडू आणि इंदूर"], 7: ["उज्जैनमध्ये दोन दिवस", "ओंकारेश्वर", "महेश्वर", "मांडू आणि इंदूर", "भोपाळ आणि सांची", "भीमबेटका"] },
+    te: { 1: ["మహాకాళ్ దర్శనం", "హరసిద్ధి మాత మరియు విశ్రాంతి", "రామ్ ఘాట్ లేదా మహాకాళ్ లోక్"], 2: ["ఉజ్జయిని ఆలయ సర్క్యూట్", "ఓంకారేశ్వర్ రోజు యాత్ర"], 3: ["ఉజ్జయినిలో రెండు సౌకర్యమైన రోజులు", "ఇందోర్ లేదా మహేశ్వర్"], 5: ["ఉజ్జయినిలో రెండు రోజులు", "ఓంకారేశ్వర్", "మహేశ్వర్", "మాండూ మరియు ఇందోర్"], 7: ["ఉజ్జయినిలో రెండు రోజులు", "ఓంకారేశ్వర్", "మహేశ్వర్", "మాండూ మరియు ఇందోర్", "భోపాల్ మరియు సాంచి", "భీంబెట్కా"] },
+    ta: { 1: ["மகாகால் தரிசனம்", "ஹரசித்தி மாதா மற்றும் ஓய்வு", "ராம் காட் அல்லது மகாகால் லோக்"], 2: ["உஜ்ஜைன் கோவில் சுற்று", "ஓங்காரேஸ்வர் நாள் பயணம்"], 3: ["உஜ்ஜைனில் இரண்டு நிதானமான நாட்கள்", "இந்தோர் அல்லது மகேஷ்வர்"], 5: ["உஜ்ஜைனில் இரண்டு நாட்கள்", "ஓங்காரேஸ்வர்", "மகேஷ்வர்", "மாண்டு மற்றும் இந்தோர்"], 7: ["உஜ்ஜைனில் இரண்டு நாட்கள்", "ஓங்காரேஸ்வர்", "மகேஷ்வர்", "மாண்டு மற்றும் இந்தோர்", "போபால் மற்றும் சாஞ்சி", "பீம்பேட்கா"] },
+    kn: { 1: ["ಮಹಾಕಾಳ ದರ್ಶನ", "ಹರಸಿದ್ಧಿ ಮಾತಾ ಮತ್ತು ವಿಶ್ರಾಂತಿ", "ರಾಮಘಾಟ್ ಅಥವಾ ಮಹಾಕಾಳ ಲೋಕ"], 2: ["ಉಜ್ಜಯಿನಿ ದೇವಸ್ಥಾನ ಪರಿಕ್ರಮೆ", "ಓಂಕಾರೇಶ್ವರ ದಿನದ ಪ್ರವಾಸ"], 3: ["ಉಜ್ಜಯಿನಿಯಲ್ಲಿ ಎರಡು ಆರಾಮದಾಯಕ ದಿನಗಳು", "ಇಂದೋರ್ ಅಥವಾ ಮಹೇಶ್ವರ"], 5: ["ಉಜ್ಜಯಿನಿಯಲ್ಲಿ ಎರಡು ದಿನಗಳು", "ಓಂಕಾರೇಶ್ವರ", "ಮಹೇಶ್ವರ", "ಮಾಂಡು ಮತ್ತು ಇಂದೋರ್"], 7: ["ಉಜ್ಜಯಿನಿಯಲ್ಲಿ ಎರಡು ದಿನಗಳು", "ಓಂಕಾರೇಶ್ವರ", "ಮಹೇಶ್ವರ", "ಮಾಂಡು ಮತ್ತು ಇಂದೋರ್", "ಭೋಪಾಲ್ ಮತ್ತು ಸಾಂಚಿ", "ಭೀಂಬೆಟ್ಕಾ"] },
   };
-  const itinerary = [...(plans[days] || plans[1])];
-  if (selected.includes("आरामदायक यात्रा")) itinerary.push("एक आधा दिन बिना कार्यक्रम के आराम और भीड़ के अतिरिक्त समय के लिए रखें।");
-  if (selected.includes("खान-पान") && days >= 3) itinerary.push("इंदौर में हल्की शाम का भोजन भ्रमण जोड़ें।");
-  const tips = visitor === "बुजुर्ग माता-पिता" ? ["सुबह जल्दी दर्शन", "हर दो पड़ाव के बाद विश्राम", "पानी और दवाएँ साथ रखें"] : ["योजना लचीली रखें", "परिवार का मिलने का स्थान तय करें", "टिकट और पहचान पत्र ऑफलाइन रखें"];
-  return { base, days: itinerary, temples: ["महाकालेश्वर", "हरसिद्धि माता", days >= 2 ? "ओंकारेश्वर" : "काल भैरव"], food: ["पोहा-जलेबी", "हल्की शाकाहारी थाली", "सुरक्षित पानी और ओआरएस"], tips };
+  return plans[locale][days] || plans[locale][1];
 }
