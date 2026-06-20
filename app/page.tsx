@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Plan Your Ujjain Kumbh Mela 2028 Journey",
     description: "A complete family-friendly Mahakal and Ujjain travel planning guide.",
-    images: ["/images/ujjain-shipra-hero.png"],
+    images: ["/images/mahakal-ghat-temple.png"],
   },
 };
 

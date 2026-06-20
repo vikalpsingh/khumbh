@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   BedDouble,
@@ -20,9 +21,18 @@ const floatingCards = [
 
 export function HomeHero() {
   return (
-    <section className="brand-gradient temple-silhouette relative overflow-hidden text-white">
-      <div className="pattern-mandala absolute inset-0 opacity-20" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#351013]/90 via-[#6e2024]/60 to-transparent" />
+    <section className="temple-silhouette relative overflow-hidden bg-[#351013] text-white">
+      <Image
+        src="/images/mahakal-ghat-temple.png"
+        alt="Devotees gathered beside the temple ghats in Ujjain at sunset"
+        fill
+        priority
+        className="object-cover object-[62%_center] sm:object-center"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#210b0d]/95 via-[#55191d]/80 to-[#6e2024]/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#260d0f]/85 via-transparent to-black/20" />
+      <div className="pattern-mandala absolute inset-0 opacity-10" />
       <div className="relative mx-auto grid min-h-[720px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:grid-cols-[1.08fr_.92fr] lg:px-8">
         <MotionReveal className="relative z-10 max-w-3xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-black/15 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#ffd28a] backdrop-blur">
@@ -47,7 +57,7 @@ export function HomeHero() {
           <div className="absolute inset-24 hidden rounded-full border border-white/10 lg:block" />
           {floatingCards.map(({ label, meta, icon: Icon, position }, index) => (
             <MotionReveal key={label} delay={index * 0.08} className={`relative z-10 lg:absolute ${position}`}>
-              <div className="min-h-32 rounded-2xl border border-white/20 bg-white/95 p-4 text-ink shadow-2xl shadow-black/20 backdrop-blur sm:min-w-48">
+              <div className="min-h-32 rounded-2xl border border-white/35 bg-white/90 p-4 text-ink shadow-2xl shadow-black/30 backdrop-blur-md sm:min-w-48">
                 <span className="grid h-10 w-10 place-items-center rounded-xl bg-orange-50 text-saffron"><Icon className="h-5 w-5" /></span>
                 <p className="mt-4 text-sm font-extrabold">{label}</p>
                 <p className="mt-1 text-xs text-stone-500">{meta}</p>
