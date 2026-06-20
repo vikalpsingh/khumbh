@@ -1,25 +1,52 @@
 import type { Metadata } from "next";
-import stays from "@/data/stays.json";
+import guide from "@/data/stay-guide.json";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { HeroSection, SectionTitle, StayComparisonCard } from "@/components/travel-components";
+import { FAQAccordion } from "@/components/faq-accordion";
 import { MotionReveal } from "@/components/motion-reveal";
-import { StayComparisonTable } from "@/components/spiritual-design-system";
+import { HeroSection, SectionTitle } from "@/components/travel-components";
+import { AreaGuideCard, DetailedStayComparison, FamilyStayQuiz, StayBudgetCards, StayHelpForm, StayRecommendationCard } from "@/components/stay-guide-sections";
 
-export const metadata: Metadata = { title: "Stay in Ujjain vs Indore vs Bhopal", description: "Compare hotels and travel trade-offs for Ujjain Kumbh 2028 in Ujjain, Indore and Bhopal.", alternates: { canonical: "/stay-guide" } };
+export const metadata: Metadata = {
+  title: "Where to Stay: Ujjain vs Indore vs Bhopal",
+  description: "Compare Ujjain, Indore and Bhopal for Mahakal darshan, hotels, food, airport access, family comfort and nearby Madhya Pradesh trips.",
+  keywords: ["where to stay for Ujjain Kumbh", "Ujjain vs Indore hotels", "Mahakal stay guide", "Bhopal Sanchi Bhimbetka stay"],
+  alternates: { canonical: "/stay-guide" },
+  openGraph: { title: "Where to Stay for Ujjain Kumbh Mela 2028?", description: "A family-friendly comparison of Ujjain, Indore and Bhopal." },
+};
 
 export default function StayPage() {
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: guide.faqs.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
   return (
     <main>
-      <Breadcrumbs items={[{ label: "Stay comparison" }]} />
-      <HeroSection compact eyebrow="Choose your base" title="Ujjain, Indore or" accent="Bhopal?" description="Compare convenience, comfort, commute and price before booking rooms for your family." />
-      <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle eyebrow="Side-by-side comparison" title="The right city depends on your priorities" description="Book refundable inventory early and reconfirm vehicle access close to the festival." />
-          <div className="mt-10"><StayComparisonTable stays={stays} /></div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">{stays.map((stay, index) => <MotionReveal key={stay.city}><StayComparisonCard stay={stay} featured={index === 1} /></MotionReveal>)}</div>
-          <div className="mt-10 rounded-3xl border border-gold/30 bg-[#fff9ec] p-6 sm:p-8"><h2 className="font-serif text-2xl font-semibold text-ink">Our practical recommendation</h2><p className="mt-3 max-w-4xl leading-7 text-stone-600">For parents with limited mobility or a pre-dawn booking, stay in Ujjain. For families prioritising hotel comfort and flights, split the trip: two nights in Ujjain and one or two in Indore.</p></div>
-        </div>
+      <Breadcrumbs items={[{ label: "Where to Stay" }]} />
+      <HeroSection compact eyebrow="Choose the right base" title="Where to Stay for Ujjain Kumbh Mela" accent="2028?" description="Compare Ujjain, Indore, and Bhopal for darshan convenience, hotels, food, airport access, and nearby destinations." />
+
+      <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Quick recommendation" title="Start with your top travel priority" description="There is no single best city—only the base that makes your family’s main goal easier." /><div className="mt-10 grid gap-6 lg:grid-cols-3">{guide.recommendations.map((item, index) => <MotionReveal key={item.city}><StayRecommendationCard item={item} featured={index === 0} /></MotionReveal>)}</div></div>
       </section>
+
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Full comparison" title="Ujjain vs Indore vs Bhopal" description="Swipe the table horizontally on mobile to compare every decision factor." /><div className="mt-10"><DetailedStayComparison items={guide.comparison} /></div></div>
+      </section>
+
+      <section className="bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Neighborhood guide" title="Choose the right area within each city" description="The city is only half the decision. Area choice affects traffic, meals, airport transfers and walking." /><div className="mt-10 grid gap-6 lg:grid-cols-3">{guide.areas.map((item) => <MotionReveal key={item.city}><AreaGuideCard city={item.city} areas={item.areas} /></MotionReveal>)}</div></div>
+      </section>
+
+      <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Family decision guide" title="What matters most to your group?" description="Select the statements that fit. The recommender gives a simple starting city—not a booking decision." /><div className="mt-10"><FamilyStayQuiz items={guide.quiz} /></div></div>
+      </section>
+
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Stay budget" title="Choose the level of comfort you actually need" description="Prices vary dramatically by date, so these categories describe experience rather than hardcoded rates." /><div className="mt-10"><StayBudgetCards items={guide.budgets} /></div></div>
+      </section>
+
+      <section className="pattern-mandala bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><StayHelpForm /></div></section>
+
+      <section className="bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.7fr_1.3fr]"><SectionTitle eyebrow="Stay FAQs" title="Questions to answer before booking" description="Use refundable rates and reconfirm access arrangements as official festival plans develop." /><FAQAccordion items={guide.faqs} /></div>
+      </section>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
     </main>
   );
 }
