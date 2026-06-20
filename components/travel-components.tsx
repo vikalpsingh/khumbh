@@ -121,16 +121,19 @@ export function ItineraryCard({ itinerary }: { itinerary: { title: string; days:
   );
 }
 
-export function TempleCard({ temple }: { temple: { name: string; subtitle: string; bestTime: string; duration: string; familyTip: string; highlights: string[] } }) {
+export function TempleCard({ temple, showActions = false }: { temple: { name: string; subtitle: string; description?: string; bestTime: string; duration: string; familyTip: string; familySuitability?: string; highlights: string[]; mapsQuery?: string }; showActions?: boolean }) {
   return (
     <Card className="h-full border-t-4 border-t-gold">
       <CardContent>
         <div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-full bg-maroon text-xl text-gold">ॐ</span><Star className="h-5 w-5 fill-gold text-gold" /></div>
         <h3 className="mt-5 font-serif text-2xl font-semibold text-ink">{temple.name}</h3>
         <p className="mt-1 text-sm font-semibold text-saffron">{temple.subtitle}</p>
+        {temple.description && <p className="mt-3 text-sm leading-6 text-stone-600">{temple.description}</p>}
         <div className="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-sand/70 p-4 text-xs"><span><Clock3 className="mb-1 h-4 w-4 text-maroon" />{temple.bestTime}</span><span><Users className="mb-1 h-4 w-4 text-maroon" />{temple.duration}</span></div>
         <p className="mt-4 text-sm leading-6 text-stone-600"><strong>Family note:</strong> {temple.familyTip}</p>
+        {temple.familySuitability && <p className="mt-3 inline-flex rounded-full bg-[#eaf7f0] px-3 py-1.5 text-xs font-bold text-[#24664e]">{temple.familySuitability}</p>}
         <div className="mt-4 flex flex-wrap gap-2">{temple.highlights.map((item) => <span key={item} className="rounded-full border border-stone-200 px-3 py-1 text-xs text-stone-600">{item}</span>)}</div>
+        {showActions && <div className="mt-6 grid grid-cols-2 gap-2"><GoogleMapButton destination={temple.mapsQuery || `${temple.name}, Ujjain`} compact /><Button asChild variant="maroon" size="sm"><Link href={`/plan-my-trip?add=${encodeURIComponent(temple.name)}`}>Add to itinerary</Link></Button></div>}
       </CardContent>
     </Card>
   );
