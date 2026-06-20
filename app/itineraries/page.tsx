@@ -1,10 +1,27 @@
 import type { Metadata } from "next";
-import itineraries from "@/data/itineraries.json";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { HeroSection, ItineraryCard, SectionTitle } from "@/components/travel-components";
-import { MotionReveal } from "@/components/motion-reveal";
+import { ItineraryLibrary } from "@/components/itinerary-library";
+import { HeroSection, SectionTitle } from "@/components/travel-components";
 
-export const metadata: Metadata = { title: "Ujjain Kumbh 2028 Itineraries", description: "Two, four and seven-day Ujjain and Madhya Pradesh itineraries for families and spiritual travellers.", alternates: { canonical: "/itineraries" } };
+export const metadata: Metadata = {
+  title: "Ujjain Trip Itineraries",
+  description: "Ready-made 1, 2, 3, 5 and 7-day Ujjain, Omkareshwar, Maheshwar, Mandu, Sanchi and Bhimbetka itineraries.",
+  keywords: ["Ujjain itinerary", "Ujjain Omkareshwar itinerary", "Madhya Pradesh spiritual circuit", "Mahakal trip plan"],
+  alternates: { canonical: "/itineraries" },
+  openGraph: { title: "Ready-Made Ujjain Trip Itineraries", description: "Detailed family-friendly plans with Maps, food, stays, buffers and print options." },
+};
+
 export default function ItinerariesPage() {
-  return <main><Breadcrumbs items={[{ label: "Itineraries" }]} /><HeroSection compact eyebrow="Plans that breathe" title="Practical itineraries for" accent="real families." description="Built around darshan, meals, rest and realistic travel—not an impossible race between landmarks." /><section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><SectionTitle eyebrow="Choose your pace" title="From a weekend to a full Malwa journey" /><div className="mt-10 grid gap-6 lg:grid-cols-3">{itineraries.map((item) => <MotionReveal key={item.id}><ItineraryCard itinerary={item} /></MotionReveal>)}</div></div></section></main>;
+  return (
+    <main>
+      <Breadcrumbs items={[{ label: "Trip Itineraries" }]} />
+      <HeroSection compact eyebrow="No research required" title="Ujjain Trip" accent="Itineraries" description="Choose a ready-made one, two, three, five or seven-day plan with day-wise timings, stays, food, Maps and family travel guidance." />
+      <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle eyebrow="Choose a ready plan" title="From one sacred day to a complete MP circuit" description="Open any itinerary for morning, afternoon and evening plans. Print it, save it as PDF, share it or customize it." />
+          <div className="mt-10"><ItineraryLibrary /></div>
+        </div>
+      </section>
+    </main>
+  );
 }
