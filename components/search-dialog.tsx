@@ -7,13 +7,13 @@ import type { LocaleCode } from "@/lib/locale";
 import { localizedHref } from "@/lib/locale";
 import { uiCopy } from "@/data/locale-ui";
 
-const paths = ["/kumbh-2028-guide", "/how-to-reach", "/mahakal-temple-guide", "/stay-guide", "/nearby-places", "/food-guide", "/itineraries", "/faqs"];
-const englishTitles = ["Kumbh 2028 complete guide", "How to reach Ujjain", "Mahakal Temple guide", "Stay guide", "Nearby places", "Food guide", "Itineraries", "FAQs"];
+const paths = ["/ujjain-kumbh-2028", "/nashik-kumbh-2027", "/prayagraj-kumbh", "/haridwar-kumbh", "/kumbh-calendar", "/mahakal-temple-guide", "/stay-guide", "/plan-my-trip"];
+const englishTitles = ["Ujjain Simhastha 2028", "Nashik Kumbh 2027", "Prayagraj Kumbh", "Haridwar Kumbh", "Kumbh Calendar", "Mahakal Temple guide", "Stay guide", "Plan my trip"];
 
 export function SearchDialog({ open, onClose, locale = "en" }: { open: boolean; onClose: () => void; locale?: LocaleCode | "en" }) {
   const [query, setQuery] = useState("");
   const copy = locale === "en" ? null : uiCopy[locale];
-  const titles = locale === "en" ? englishTitles : [copy!.siteName, copy!.nav[3], copy!.nav[1], copy!.nav[2], copy!.nav[4], copy!.nav[6], copy!.nav[5], "FAQ"];
+  const titles = locale === "en" ? englishTitles : ["Ujjain 2028", "Nashik 2027", "Prayagraj Kumbh", "Haridwar Kumbh", "Kumbh Calendar", copy!.nav[1], copy!.nav[2], copy!.planTrip];
   const pages = paths.map((path, index) => [titles[index], path]);
   const matches = useMemo(() => pages.filter((page) => page.join(" ").toLowerCase().includes(query.toLowerCase())), [query, pages]);
   if (!open) return null;

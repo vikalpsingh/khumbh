@@ -54,7 +54,7 @@ export function PageTemplate({ content }: { content: Content }) {
             <a href={mapUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-3xl bg-ink p-6 font-bold text-white transition hover:bg-maroon">
               Open route in Google Maps <ExternalLink className="h-5 w-5" />
             </a>
-            <WhatsAppShare text={`Planning Ujjain Kumbh 2028: ${content.title} — ${typeof window === "undefined" ? "https://ujjain2028.in" : window.location.href}`} />
+            <WhatsAppShare text={`Planning Ujjain Kumbh 2028: ${content.title} — ${typeof window === "undefined" ? "https://indiankumbh.com/ujjain-kumbh-2028" : window.location.href}`} />
           </aside>
         </div>
       </section>

@@ -11,7 +11,7 @@ export default function ContactPage() {
           <Eyebrow>We’re here to help</Eyebrow>
           <h1 className="font-serif text-5xl font-semibold leading-tight text-ink sm:text-6xl">Tell us about your journey.</h1>
           <p className="mt-5 max-w-lg text-lg leading-8 text-stone-600">Share your dates, group size and priorities. This enquiry form is frontend-ready and can be connected to your preferred email or CRM service.</p>
-          <div className="mt-9 space-y-4 text-sm font-semibold text-stone-700"><p className="flex items-center gap-3"><Mail className="text-saffron" /> hello@ujjain2028.in</p><p className="flex items-center gap-3"><MessageCircle className="text-[#1f9d55]" /> WhatsApp support placeholder</p></div>
+          <div className="mt-9 space-y-4 text-sm font-semibold text-stone-700"><p className="flex items-center gap-3"><Mail className="text-saffron" /> hello@indiankumbh.com</p><p className="flex items-center gap-3"><MessageCircle className="text-[#1f9d55]" /> WhatsApp support placeholder</p></div>
         </div>
         <form className="rounded-[2rem] bg-white p-7 shadow-soft sm:p-9">
           <div className="grid gap-5 sm:grid-cols-2">

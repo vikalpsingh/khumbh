@@ -6,20 +6,21 @@ import { Languages, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 import { getPathLocale, localeCodes, localeNames, localizedHref, switchLocaleHref } from "@/lib/locale";
 import { uiCopy } from "@/data/locale-ui";
+import { portalCopy } from "@/data/kumbh-portal";
 import { SearchDialog } from "./search-dialog";
 import { Button } from "./ui/button";
 
-const paths = ["/", "/mahakal-temple-guide", "/stay-guide", "/plan-my-trip", "/nearby-places", "/itineraries", "/food-guide"];
-const englishNav = ["Home", "Mahakal Guide", "Stay", "Plan My Trip", "Nearby Places", "Itineraries", "Food Guide"];
+const paths = ["/", "/ujjain-kumbh-2028", "/kumbh-calendar", "/mahakal-temple-guide", "/stay-guide", "/plan-my-trip", "/nashik-kumbh-2027"];
 
 export function Header() {
   const pathname = usePathname();
   const locale = getPathLocale(pathname);
   const copy = locale === "en" ? null : uiCopy[locale];
+  const portal = portalCopy[locale];
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(false);
   const [languagesOpen, setLanguagesOpen] = useState(false);
-  const labels = copy?.nav || englishNav;
+  const labels = portal.nav;
   const planHref = localizedHref("/plan-my-trip", locale);
 
   return (
@@ -31,7 +32,7 @@ export function Header() {
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href={localizedHref("/", locale)} className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-maroon font-serif text-xl text-gold ring-4 ring-orange-100">ॐ</span>
-            <span><span className="block font-serif text-base font-bold leading-none text-ink sm:text-lg">{copy?.siteName || "Ujjain Kumbh 2028"}</span><span className="mt-1 block text-[9px] font-extrabold uppercase tracking-[0.14em] text-saffron">{copy?.tagline || "Mahakal Travel Guide"}</span></span>
+            <span><span className="block font-serif text-base font-bold leading-none text-ink sm:text-lg">{portal.brand}</span><span className="mt-1 block max-w-44 truncate text-[9px] font-extrabold uppercase tracking-[0.12em] text-saffron">{portal.tagline}</span></span>
           </Link>
           <nav className="hidden items-center gap-4 xl:flex">
             {paths.map((path, index) => { const href = localizedHref(path, locale); return <Link key={path} href={href} className={`text-[13px] font-semibold transition hover:text-saffron ${pathname === href ? "text-saffron" : "text-stone-700"}`}>{labels[index]}</Link>; })}

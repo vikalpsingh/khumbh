@@ -9,13 +9,13 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/noto-sans-devanagari";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ujjain2028.in"),
-  title: { default: "Ujjain Kumbh Mela 2028 & Mahakal Travel Guide", template: "%s | Ujjain Kumbh 2028" },
-  description: "A trusted family travel guide for Ujjain Kumbh Mela 2028, Mahakal darshan, hotels, routes, food and nearby destinations.",
-  keywords: ["Ujjain Kumbh 2028", "Simhastha 2028", "Mahakal darshan", "Ujjain travel guide"],
+  metadataBase: new URL("https://indiankumbh.com"),
+  title: { default: "IndianKumbh — Guides for All Kumbh Melas in India", template: "%s | IndianKumbh" },
+  description: "One trusted guide for Ujjain, Nashik-Trimbakeshwar, Prayagraj and Haridwar Kumbh Melas.",
+  keywords: ["Indian Kumbh", "Ujjain Simhastha 2028", "Nashik Kumbh 2027", "Prayagraj Kumbh", "Haridwar Kumbh"],
   openGraph: {
-    title: "Ujjain Kumbh Mela 2028 Travel Guide",
-    description: "A practical, calm and complete guide to planning your Ujjain pilgrimage.",
+    title: "IndianKumbh — One Trusted Guide for All Kumbh Melas",
+    description: "Currently focused on Ujjain Simhastha 2028, with national guides being built.",
     images: ["/images/ujjain-shipra-hero.png"],
     type: "website",
   },
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 const travelSchema = {
   "@context": "https://schema.org",
   "@type": "TravelGuide",
-  name: "Ujjain Kumbh Mela 2028 Travel Guide",
-  description: "Practical visitor information for Ujjain Kumbh Mela 2028.",
-  about: { "@type": "TouristDestination", name: "Ujjain, Madhya Pradesh, India" },
+  name: "IndianKumbh",
+  description: "Practical multilingual planning for India's four sacred Kumbh cities.",
+  about: ["Ujjain", "Nashik-Trimbakeshwar", "Prayagraj", "Haridwar"].map((name) => ({ "@type": "TouristDestination", name })),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
