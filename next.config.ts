@@ -5,6 +5,13 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   images: { formats: ["image/avif", "image/webp"] },
+  async redirects() {
+    return [
+      { source: "/mahakal-guide", destination: "/mahakal-temple-guide", permanent: true },
+      { source: "/stay", destination: "/stay-guide", permanent: true },
+      { source: "/nearby-destinations", destination: "/nearby-places", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
