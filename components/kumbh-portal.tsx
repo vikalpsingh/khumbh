@@ -1,51 +1,61 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BellRing, CalendarDays, Check, MapPin, ShieldCheck, Sparkles, Waves } from "lucide-react";
+import { ArrowRight, BedDouble, CalendarDays, Check, Landmark, MapPin, MapPinned, Route, Sparkles, Utensils } from "lucide-react";
 import type { PortalLocale } from "@/data/kumbh-portal";
 import { latestGuides, portalCopy } from "@/data/kumbh-portal";
 import { getKumbhSite, kumbhSites, type KumbhSite } from "@/src/data/kumbhSites";
+import { uiCopy } from "@/data/locale-ui";
 import { localizedHref } from "@/lib/locale";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
 export function NationalKumbhHome({ locale = "en" }: { locale?: PortalLocale }) {
   const copy = portalCopy[locale];
+  const regional = locale === "en" ? null : uiCopy[locale];
   const href = (path: string) => localizedHref(path, locale);
+  const featuredCards = [
+    { title: locale === "en" ? "Mahakal Guide" : regional!.nav[1], description: locale === "en" ? "Darshan planning, Bhasma Aarti guidance, temple rules and nearby sacred stops." : regional!.sectionDescription, href: "/mahakal-temple-guide", icon: Landmark },
+    { title: locale === "en" ? "Stay in Ujjain vs Indore vs Bhopal" : regional!.compareStays, description: locale === "en" ? "Compare darshan access, airport convenience, hotels, food and family comfort." : regional!.sectionDescription, href: "/stay-guide", icon: BedDouble },
+    { title: locale === "en" ? "Plan My Trip" : regional!.planTrip, description: locale === "en" ? "Generate a simple route and itinerary based on your days, family and interests." : regional!.plannerDescription, href: "/plan-my-trip", icon: Route },
+    { title: locale === "en" ? "Itineraries" : regional!.itineraries, description: locale === "en" ? "Ready plans for one, two, three, five and seven-day Ujjain journeys." : regional!.sectionDescription, href: "/itineraries", icon: CalendarDays },
+    { title: locale === "en" ? "Food Guide" : regional!.foodGuide, description: locale === "en" ? "Discover Malwa flavours and practical food-safety advice for family travel." : regional!.sectionDescription, href: "/food-guide", icon: Utensils },
+    { title: locale === "en" ? "Nearby Destinations" : regional!.nearby, description: locale === "en" ? "Add Omkareshwar, Maheshwar, Mandu, Indore, Sanchi or Bhimbetka." : regional!.sectionDescription, href: "/nearby-places", icon: MapPinned },
+  ];
+  const upcomingSites = kumbhSites.filter((site) => site.status !== "featured");
+  const featuredSite = kumbhSites.find((site) => site.status === "featured")!;
+
   return <main>
     <section className="temple-silhouette relative min-h-[720px] overflow-hidden bg-maroon text-white">
-      <Image src="/images/mahakal-ghat-temple.png" alt="Ujjain Simhastha Kumbh pilgrimage at the sacred ghats" fill priority className="object-cover object-[62%_center]" sizes="100vw" />
+      <Image src="/images/mahakal-ghat-temple.png" alt={featuredSite.imageAlt} fill priority className="object-cover object-[62%_center]" sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#19080a]/95 via-[#50171b]/84 to-[#641f26]/30" /><div className="absolute inset-0 bg-gradient-to-t from-[#260d0f]/85 via-transparent to-black/15" /><div className="pattern-mandala absolute inset-0 opacity-10" />
       <div className="relative mx-auto flex min-h-[720px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8"><div className="max-w-4xl">
         <p className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-black/20 px-4 py-2 text-xs font-bold uppercase tracking-[.15em] text-gold"><Sparkles className="h-4 w-4" />{copy.heroEyebrow}</p>
-        <h1 className="mt-6 text-balance font-serif text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">{copy.heroTitle}</h1>
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-orange-50/90 sm:text-xl">{copy.heroDescription}</p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg"><Link href={href("/plan-my-trip")}>{copy.primaryCta}</Link></Button><Button asChild variant="outline" size="lg"><Link href={href("/ujjain-kumbh-2028")}>{copy.secondaryCta}</Link></Button></div>
-        <p className="mt-8 max-w-3xl rounded-2xl border border-white/15 bg-black/20 p-4 text-sm leading-6 text-orange-50/85 backdrop-blur"><ShieldCheck className="mr-2 inline h-4 w-4 text-gold" />{copy.focusNotice}</p>
+        <h1 className="mt-6 text-balance font-serif text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">{locale === "en" ? "Ujjain Simhastha Kumbh 2028 Guide" : copy.heroTitle}</h1>
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-orange-50/90 sm:text-xl">{locale === "en" ? "Plan darshan, stay, routes, food, nearby destinations and family travel for the next great Kumbh in Ujjain." : copy.heroDescription}</p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg"><Link href={href("/plan-my-trip")}>{locale === "en" ? "Plan Ujjain Kumbh Trip" : copy.primaryCta}</Link></Button><Button asChild variant="outline" size="lg"><Link href={href("/kumbh-calendar")}>{locale === "en" ? "View All Kumbhs" : copy.upcomingTitle}</Link></Button></div>
       </div></div>
     </section>
 
+    <section className="border-y border-gold/25 bg-white px-4 py-5"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm font-bold text-maroon sm:text-base">{copy.fourCities.map((city, index) => <span key={city.city} className="contents"><span>{city.city}</span>{index < copy.fourCities.length - 1 && <span className="text-gold">•</span>}</span>)}</div></section>
+
     <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl">
-      <p className="text-xs font-bold uppercase tracking-[.2em] text-saffron">{copy.upcomingEyebrow}</p><h2 className="mt-3 max-w-3xl font-serif text-4xl font-semibold text-ink sm:text-5xl">{copy.upcomingTitle}</h2><p className="mt-4 max-w-3xl text-lg leading-8 text-stone-600">{copy.upcomingDescription}</p>
-      <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{kumbhSites.map((item) => <KumbhCard key={item.slug} item={item} href={href(`/${item.slug}`)} readLabel={copy.readGuide} pendingLabel={copy.schedulePending} />)}</div>
+      <p className="text-xs font-bold uppercase tracking-[.2em] text-saffron">{locale === "en" ? "Featured Ujjain planning" : copy.heroEyebrow}</p><h2 className="mt-3 max-w-3xl font-serif text-4xl font-semibold text-ink sm:text-5xl">{locale === "en" ? "Everything needed for Ujjain Simhastha 2028" : copy.heroTitle}</h2><p className="mt-4 max-w-3xl text-lg leading-8 text-stone-600">{locale === "en" ? "Start with Mahakal darshan, choose the right stay base and build a realistic family journey." : copy.heroDescription}</p>
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{featuredCards.map(({ icon: Icon, ...card }) => <Link key={card.href} href={href(card.href)} className="group"><Card className="premium-card h-full border-gold/30 transition group-hover:-translate-y-1 group-hover:border-saffron/50"><CardContent><span className="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 text-saffron"><Icon className="h-6 w-6" /></span><h3 className="mt-5 font-serif text-2xl">{card.title}</h3><p className="mt-3 text-sm leading-7 text-stone-600">{card.description}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-maroon">{copy.readGuide}<ArrowRight className="h-4 w-4" /></span></CardContent></Card></Link>)}</div>
     </div></section>
 
-    <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl">
-      <h2 className="max-w-3xl font-serif text-4xl font-semibold text-ink sm:text-5xl">{copy.whyTitle}</h2><p className="mt-4 max-w-3xl text-lg leading-8 text-stone-600">{copy.whyDescription}</p>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{copy.fourCities.map((city) => <Card key={city.city} className="premium-card h-full border-gold/35"><CardContent><span className="grid h-12 w-12 place-items-center rounded-full bg-maroon text-gold"><Waves className="h-6 w-6" /></span><h3 className="mt-5 font-serif text-2xl">{city.city}</h3><p className="mt-1 text-xs font-bold uppercase tracking-widest text-saffron">{city.river}</p><p className="mt-4 text-sm leading-7 text-stone-600">{city.text}</p></CardContent></Card>)}</div>
+    <section id="all-kumbhs" className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl">
+      <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-saffron">{copy.upcomingEyebrow}</p><h2 className="mt-3 font-serif text-4xl font-semibold text-ink sm:text-5xl">{locale === "en" ? "Build the journey beyond Ujjain" : copy.upcomingTitle}</h2></div><Link href={href("/ujjain-kumbh-2028")} className="inline-flex items-center gap-2 text-sm font-bold text-maroon">{locale === "en" ? "Featured" : copy.heroEyebrow}: {featuredSite.name}<ArrowRight className="h-4 w-4" /></Link></div>
+      <div className="mt-10 grid gap-5 md:grid-cols-3">{upcomingSites.map((item) => <KumbhCard key={item.slug} item={item} href={href(`/${item.slug}`)} readLabel={copy.readGuide} pendingLabel={copy.schedulePending} />)}</div>
     </div></section>
 
-    <section className="bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><h2 className="font-serif text-4xl font-semibold sm:text-5xl">{copy.latestTitle}</h2><div className="mt-10 grid gap-5 md:grid-cols-3">{latestGuides.map((guide) => <Link key={guide.href} href={href(guide.href)} className="group"><Card className="h-full transition group-hover:-translate-y-1 group-hover:border-saffron/40"><CardContent><p className="text-xs font-bold uppercase tracking-widest text-saffron">{guide.category}</p><h3 className="mt-3 font-serif text-2xl leading-tight">{guide.title}</h3><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-maroon">{copy.readGuide}<ArrowRight className="h-4 w-4" /></span></CardContent></Card></Link>)}</div></div></section>
+    <section className="bg-sand px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-saffron">Kumbh Calendar</p><h2 className="mt-3 font-serif text-4xl font-semibold sm:text-5xl">Planning status at a glance</h2></div><Button asChild variant="outline"><Link href={href("/kumbh-calendar")}>View full calendar<ArrowRight className="h-4 w-4" /></Link></Button></div><div className="mt-10 overflow-hidden rounded-3xl border border-gold/35 bg-white shadow-soft">{kumbhSites.map((site) => <div key={site.slug} className="grid gap-3 border-b border-stone-200 p-5 last:border-b-0 md:grid-cols-[1.2fr_.8fr_1.6fr] md:items-center sm:p-6"><div><h3 className="font-serif text-xl">{site.nextEventName}</h3><p className="mt-1 text-xs font-semibold text-stone-500">{site.city}, {site.state}</p></div><p className="text-sm font-bold text-saffron">{site.nextEventYear ?? "Future date"}</p><div><span className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${site.status === "featured" ? "bg-orange-50 text-saffron" : site.status === "upcoming" ? "bg-amber-50 text-amber-800" : "bg-stone-100 text-stone-600"}`}>{site.status}</span><p className="mt-2 text-xs leading-5 text-stone-500">{site.tentativeDates}</p></div></div>)}</div></div></section>
 
-    <AlertSignup copy={copy} />
+    <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto max-w-7xl"><p className="text-xs font-bold uppercase tracking-[.2em] text-saffron">{copy.latestTitle}</p><h2 className="mt-3 font-serif text-4xl font-semibold sm:text-5xl">{locale === "en" ? "Plan with useful, grounded advice" : copy.upcomingDescription}</h2><div className="mt-10 grid gap-5 md:grid-cols-3">{latestGuides.map((guide) => <Link key={guide.href} href={href(guide.href)} className="group"><Card className="h-full transition group-hover:-translate-y-1 group-hover:border-saffron/40"><CardContent><p className="text-xs font-bold uppercase tracking-widest text-saffron">{guide.category}</p><h3 className="mt-3 font-serif text-2xl leading-tight">{guide.title}</h3><p className="mt-4 text-sm leading-7 text-stone-600">{locale === "en" ? "Practical placeholder article for routes, crowds, family comfort and official-source verification." : copy.whyDescription}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-maroon">{copy.readGuide}<ArrowRight className="h-4 w-4" /></span></CardContent></Card></Link>)}</div></div></section>
   </main>;
 }
 
 function KumbhCard({ item, href, readLabel, pendingLabel }: { item: KumbhSite; href: string; readLabel: string; pendingLabel: string }) {
   return <Card className={`h-full overflow-hidden ${item.status === "featured" ? "border-saffron ring-2 ring-orange-100" : "border-gold/30"}`}><div className="brand-gradient pattern-jaali p-6 text-white"><div className="flex items-center justify-between"><MapPin className="h-6 w-6 text-gold" /><span className="rounded-full border border-white/20 bg-black/15 px-3 py-1 text-xs font-bold">{item.nextEventYear ?? "Future"}</span></div><h3 className="mt-8 font-serif text-2xl text-white">{item.name}</h3><p className="mt-1 text-xs text-orange-100">{item.river} · {item.state}</p></div><CardContent><p className="text-sm leading-7 text-stone-600">{item.shortDescription}</p><p className="mt-5 flex gap-2 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-900"><CalendarDays className="h-4 w-4 shrink-0" />{pendingLabel}: {item.tentativeDates}</p><Button asChild variant="outline" className="mt-5 w-full"><Link href={href}>{item.mainCTA || readLabel}<ArrowRight className="h-4 w-4" /></Link></Button></CardContent></Card>;
-}
-
-function AlertSignup({ copy }: { copy: (typeof portalCopy)[PortalLocale] }) {
-  return <section className="pattern-mandala bg-cream px-4 py-16 sm:px-6 lg:px-8 lg:py-24"><div className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] bg-maroon p-8 text-white sm:p-12 lg:grid-cols-[1fr_.8fr] lg:items-center"><div><BellRing className="h-8 w-8 text-gold" /><h2 className="mt-5 font-serif text-4xl">{copy.alertsTitle}</h2><p className="mt-4 max-w-2xl leading-7 text-orange-50/80">{copy.alertsDescription}</p></div><form className="grid gap-3 sm:grid-cols-[1fr_auto]"><input type="email" aria-label="Email address" placeholder="Email / WhatsApp" className="h-13 rounded-full border border-white/20 bg-white px-5 text-ink outline-none" /><Button type="button" size="lg">{copy.alertButton}</Button><p className="text-xs text-orange-50/60 sm:col-span-2">Demo signup · no data is submitted yet.</p></form></div></section>;
 }
 
 export function KumbhGuidePage({ slug, locale = "en" }: { slug: string; locale?: PortalLocale }) {

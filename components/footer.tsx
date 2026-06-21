@@ -20,7 +20,10 @@ export function Footer() {
         <div><p className="mb-4 text-xs font-bold uppercase tracking-widest text-gold">{copy?.footerDiscover || "Kumbh cities"}</p><div className="space-y-3 text-sm"><Link className="block hover:text-white" href={href("/ujjain-kumbh-2028")}>Ujjain 2028</Link><Link className="block hover:text-white" href={href("/nashik-kumbh-2027")}>Nashik 2027</Link><Link className="block hover:text-white" href={href("/kumbh-calendar")}>Kumbh Calendar</Link></div></div>
         <div><p className="mb-4 text-xs font-bold uppercase tracking-widest text-gold">{copy?.footerTrust || "Trust & support"}</p><p className="flex gap-2 text-sm"><ShieldCheck className="h-4 w-4 text-gold" />{copy?.officialFirst || "Official sources first"}</p><Link href={href("/contact")} className="mt-4 flex gap-2 text-sm hover:text-white"><Mail className="h-4 w-4" />{copy?.enquiry || "Travel enquiry"}</Link><p className="mt-4 flex gap-2 text-sm text-stone-400"><MapPin className="h-4 w-4" />{copy?.location || "Ujjain, Madhya Pradesh"}</p></div>
       </div>
-      <div className="border-t border-white/10 px-4 py-6 text-center text-xs text-stone-500">© 2026 IndianKumbh · Privacy · Disclaimer</div>
+      <div className="border-t border-white/10 px-4 py-5 text-center text-xs leading-5 text-stone-500">
+        <p>Dates, routes and official arrangements should be verified with government/official sources before travel.</p>
+        <p className="mt-2">© 2026 IndianKumbh · Privacy · Disclaimer</p>
+      </div>
     </footer>
   );
 }
