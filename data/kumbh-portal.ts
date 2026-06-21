@@ -2,66 +2,6 @@ import type { LocaleCode } from "@/lib/locale";
 
 export type PortalLocale = LocaleCode | "en";
 
-export const kumbhLocations = [
-  {
-    id: "nashik-2027",
-    slug: "nashik-kumbh-2027",
-    city: "Nashik–Trimbakeshwar",
-    river: "Godavari",
-    horizon: "2027",
-    status: "Upcoming guide",
-    shortDescription: "A practical overview for the Nashik and Trimbakeshwar pilgrimage circuit.",
-    officialDates: null,
-    dateNote: "Detailed bathing dates and operating arrangements must be verified after official publication.",
-    tags: ["Upcoming", "Jyotirlinga", "Maharashtra"],
-  },
-  {
-    id: "ujjain-2028",
-    slug: "ujjain-kumbh-2028",
-    city: "Ujjain",
-    river: "Shipra",
-    horizon: "2028",
-    status: "Primary guide",
-    shortDescription: "The deepest IndianKumbh guide: Mahakal darshan, stays, routes, food and family itineraries.",
-    officialDates: null,
-    dateNote: "Final Simhastha dates and arrangements should be confirmed from official Madhya Pradesh sources.",
-    tags: ["Primary Focus", "Mahakal", "Madhya Pradesh"],
-  },
-  {
-    id: "prayagraj-future",
-    slug: "prayagraj-kumbh",
-    city: "Prayagraj",
-    river: "Ganga–Yamuna Sangam",
-    horizon: "Future guide",
-    status: "Evergreen overview",
-    shortDescription: "An evergreen planning base for future Prayagraj Kumbh and Ardh Kumbh journeys.",
-    officialDates: null,
-    dateNote: "Future event naming and dates should be treated as provisional until officially announced.",
-    tags: ["Sangam", "Uttar Pradesh", "Future Guide"],
-  },
-  {
-    id: "haridwar-future",
-    slug: "haridwar-kumbh",
-    city: "Haridwar",
-    river: "Ganga",
-    horizon: "Future guide",
-    status: "Evergreen overview",
-    shortDescription: "A foundation guide for Har Ki Pauri, stays, rail access and future Kumbh planning.",
-    officialDates: null,
-    dateNote: "Future Kumbh schedules and local arrangements await official publication.",
-    tags: ["Ganga", "Uttarakhand", "Future Guide"],
-  },
-] as const;
-
-export const calendarEntries = kumbhLocations.map((item) => ({
-  id: item.id,
-  city: item.city,
-  yearOrHorizon: item.horizon,
-  officialStatus: item.officialDates ? "Published" : "Awaiting official schedule",
-  note: item.dateNote,
-  href: `/${item.slug}`,
-}));
-
 type PortalCopy = {
   brand: string;
   tagline: string;
